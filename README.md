@@ -1,3 +1,3 @@
 # as_sensitivity_analysis
-testing this shit
+This code provides various methods for sensitivity analysis. 
 
