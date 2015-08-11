@@ -112,7 +112,7 @@ set(h,'Interpreter','latex', 'FontSize', 12);
 set(f,'Interpreter','latex', 'FontSize', 12);
 legend('1','2','3','4','5','6','Location','SouthWest');
 ylim([1e-11 1e1]);
-%print('figs/std_err_dbsm_otl','-dpdf','-r300');
+%print('std_err_dbsm_otl','-dpdf','-r300');
 %close;
 %%
 close all;clear all; clear; clc;
