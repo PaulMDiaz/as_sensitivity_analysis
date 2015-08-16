@@ -4,6 +4,7 @@ function [rel_err, std_err] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 
 % m is number of parameters
 % Nsamples is number of samples for each MC estimate
 % metric_case tells which metric to study
+% Edited by Paul Diaz August 16 2015
 
 NN = 5; % number of quadrature points per dimension for computing reference values
 
@@ -83,6 +84,32 @@ switch metric_case
             std_err(:,i) = std(as_star,0,2)/sqrt(M);
             
         end 
+        
+     case 4 % dgsm with bootstrap
+        nu_ref = dgsm_pc(dfun, m, NN, 2);
+        
+        for i=1:length(Nsamples)
+            M = Nsamples(i);
+            
+            % compute the dgsm
+            X = 2*rand(M,m)-1;
+            G2 = zeros(m,M);
+            for j=1:M
+                G2(:,j) = dfun(X(j,:)).^2;
+            end
+            nu = mean(G2,2);
+            
+            % error versus quadrature reference
+            rel_err(:,i) = abs(nu-nu_ref)./abs(nu_ref);
+            
+            % bootstrap to estimate standard error.
+            nu_star = zeros(m,100);
+            for j=1:100
+                ind = randi(M,1,M);
+                nu_star(:,j) = mean(G2(:,ind),2);
+            end
+            std_err(:,i) = std(nu_star,0,2)/sqrt(M);
+        end   
         
     otherwise 
         error('Unrecognized case.')

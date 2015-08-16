@@ -1,9 +1,8 @@
-% Plots the relative error and standard deviation error figures for three 
-% different sensitivity analysis methods. Note this script first requires the .mat
-% output files from SA_numerical_tests_pc.m ; uncomment the print statements to save 
-% each figure to the working file directory as a .pdf file.
-% Author: Paul Diaz
-% Date: August 16 2015
+%Plots the relative error and standard deviation error figures for three 
+%different sensitivity analysis methods. Note this script first requires the .mat
+%output files from SA_numerical_tests_pc.m ; each figure is saved to the
+%working file directory as a .pdf file.
+% 
 close all;clear all; clear; clc;
 load('piston_sobol_err')
 figure();
