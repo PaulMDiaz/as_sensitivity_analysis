@@ -111,6 +111,61 @@ switch metric_case
             std_err(:,i) = std(nu_star,0,2)/sqrt(M);
         end   
         
+     case 5 % dgsm
+        bhat_ref = dgsm_pc(dfun, m, NN, 1)*m^(-1/2);
+        
+        for i=1:length(Nsamples)
+            M = Nsamples(i);
+            
+            % compute the regression coefficients
+            [beta_hat,se] = std_regression_coeffs_mc(fun,m,M);
+            
+            % error versus quadrature reference
+            rel_err(:,i) = abs(beta_hat-bhat_ref)./abs(bhat_ref);
+            
+            % standard error.
+            std_err(:,i) = se;
+            
+        end
+        
+     case 6 % first eigenvector of the 
+        w1_ref = first_evec(dfun, m, NN);
+        
+        for i=1:length(Nsamples)
+            M = Nsamples(i);
+            
+            % compute the activity score
+            X = 2*rand(M,m)-1;
+            G = zeros(m,M);
+            for j=1:M
+                G(:,j) = dfun(X(j,:));
+            end
+            %spectral decomposition
+            [W,~,~] = svd(G,'econ');
+            if sign(W(1,1)) ~= sign(w1_ref(1))
+                w1 = -1*W(:,1);
+            else
+                w1 = W(:,1);
+            end
+            % error versus the quadrature reference
+            rel_err(:,i) = abs(w1- w1_ref)./abs(w1_ref);
+            
+            % bootstrap to estimate standard error
+            w1_star = zeros(m,100);
+            for j=1:100
+                ind = randi(M,1,M);
+                [Wstar,~,~] = svd(G(:,ind),'econ');
+                   
+                w1_star(:,j) = Wstar(:,1);
+            end
+            
+            % estimate the standard error
+            std_err(:,i) = std(w1_star,0,2)/sqrt(M);
+            
+        end 
+        
+        
+        
     otherwise 
         error('Unrecognized case.')
 end

@@ -1,4 +1,4 @@
-function alpha = activity_score_pc(dfun, m, n, dim)
+function w1 = first_evec(dfun, m, n)
 % dfun is anonymous function that returns a gradient
 % m is number of input parameters
 % n number of points per dimension
@@ -21,8 +21,8 @@ end
 
 % eigenvalues and eigenvectors
 [W,Lambda] = eig(C);
-[lambda, ind] = sort(diag(Lambda), 'descend');
+[~, ind] = sort(diag(Lambda), 'descend');
 W = W(:,ind);
 
-% compute activity scores
-alpha = W(:,1:dim).^2*lambda(1:dim);
+% compute the first eigenvector
+w1 = W(:,1);
