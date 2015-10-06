@@ -1,4 +1,4 @@
-function [rel_err, std_err] = sensitivity_metric_errors(fun, dfun, m, Nsamples, metric_case)
+function [rel_err, std_err,ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, metric_case)
 % fun is the function
 % dfun is the gradient function
 % m is number of parameters
@@ -6,7 +6,7 @@ function [rel_err, std_err] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 
 % metric_case tells which metric to study
 % Edited by Paul Diaz August 16 2015
 
-NN = 5; % number of quadrature points per dimension for computing reference values
+NN = 7; % number of quadrature points per dimension for computing reference values
 
 rel_err = zeros(m, length(Nsamples));
 std_err = zeros(m, length(Nsamples));
@@ -14,7 +14,7 @@ std_err = zeros(m, length(Nsamples));
 switch metric_case
     case 1 % sobol indices
         Stot_ref = sobol_indices_pc(fun, m, NN);
-        
+        ref = Stot_ref;
         for i=1:length(Nsamples)
             M = Nsamples(i);
             [Stot, se] = sobol_indices_mc_pc(fun, m, M);
@@ -30,7 +30,7 @@ switch metric_case
         
     case 2 % dgsm
         nu_ref = dgsm_pc(dfun, m, NN, 2);
-        
+        ref = nu_ref;
         for i=1:length(Nsamples)
             M = Nsamples(i);
             
@@ -53,7 +53,7 @@ switch metric_case
     case 3 % activity metric
         as_dim = 1;
         as_ref = activity_score_pc(dfun, m, NN, as_dim);
-        
+        ref = as_ref;
         for i=1:length(Nsamples)
             M = Nsamples(i);
             
@@ -87,7 +87,7 @@ switch metric_case
         
      case 4 % dgsm with bootstrap
         nu_ref = dgsm_pc(dfun, m, NN, 2);
-        
+        ref = nu_ref;
         for i=1:length(Nsamples)
             M = Nsamples(i);
             
@@ -111,9 +111,12 @@ switch metric_case
             std_err(:,i) = std(nu_star,0,2)/sqrt(M);
         end   
         
-     case 5 % dgsm
-        bhat_ref = dgsm_pc(dfun, m, NN, 1)*m^(-1/2);
-        
+     case 5 % Regression Coefficients
+  %      bhat_ref = dgsm_pc(dfun, m, NN, 1)*m^(-1/2);
+         %omega = dgsm_pc(dfun, m, NN, 1);
+  %       bhat_ref = omega*sqrt(sum(omega.^2));       
+         bhat_ref = std_regression_coeffs_refs(fun,m,NN);
+         ref = bhat_ref;
         for i=1:length(Nsamples)
             M = Nsamples(i);
             
@@ -130,7 +133,7 @@ switch metric_case
         
      case 6 % first eigenvector of the 
         w1_ref = first_evec(dfun, m, NN);
-        
+        ref = w1_ref;
         for i=1:length(Nsamples)
             M = Nsamples(i);
             

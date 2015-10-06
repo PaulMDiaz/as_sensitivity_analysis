@@ -24,7 +24,7 @@ sobol_rel_err = zeros(m,length(Nsamples),Ntrials);
 sobol_std_err = zeros(m,length(Nsamples),Ntrials);
 for i=1:Ntrials
     tic
-    [sobol_rel_err(:,:,i), sobol_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 1);
+    [sobol_rel_err(:,:,i), sobol_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 1);
     fprintf('Piston, Sobol: %6.4f min\n',toc/60);
 end
 save('piston_sobol_err'); %Saves the numerical output in a .mat file for figure printing
@@ -40,7 +40,7 @@ dgsm_rel_err = zeros(m,length(Nsamples),Ntrials);
 dgsm_std_err = zeros(m,length(Nsamples),Ntrials);
 for i =1:Ntrials
     tic
-    [dgsm_rel_err(:,:,i), dgsm_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 2);
+    [dgsm_rel_err(:,:,i), dgsm_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 2);
     fprintf('Piston, DGSM: %6.4f min\n',toc/60);
 end
 save('piston_dgsm_err');
@@ -56,7 +56,7 @@ dgsm_rel_err = zeros(m,length(Nsamples),Ntrials);
 dgsm_std_err = zeros(m,length(Nsamples),Ntrials);
 for i =1:Ntrials
     tic
-    [dgsm_rel_err(:,:,i), dgsm_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 4);
+    [dgsm_rel_err(:,:,i), dgsm_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 4);
     fprintf('Piston, DGSM: %6.4f min\n',toc/60);
 end
 save('piston_bs_dgsm_err');
@@ -73,7 +73,7 @@ as_rel_err = zeros(m,length(Nsamples),Ntrials);
 as_std_err = zeros(m,length(Nsamples),Ntrials);
 for i =1:Ntrials
     tic
-    [as_rel_err(:,:,i), as_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 3);
+    [as_rel_err(:,:,i), as_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 3);
     fprintf('Piston, AS: %6.4f min\n',toc/60);
 end
 save('piston_AS_err');
@@ -89,7 +89,7 @@ reg_rel_err = zeros(m,length(Nsamples),Ntrials);
 reg_std_err = zeros(m,length(Nsamples),Ntrials);
 for i=1:Ntrials
     tic
-    [reg_rel_err(:,:,i), reg_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 5);
+    [reg_rel_err(:,:,i), reg_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 5);
     fprintf('Piston, Regression: %6.4f min\n',toc/60);
 end
 save('piston_reg_err'); %Saves the numerical output in a .mat file for figure printing
@@ -105,13 +105,14 @@ w1_rel_err = zeros(m,length(Nsamples),Ntrials);
 w1_std_err = zeros(m,length(Nsamples),Ntrials);
 for i=1:Ntrials
     tic
-    [w1_rel_err(:,:,i), w1_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 6);
+    [w1_rel_err(:,:,i), w1_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 6);
     fprintf('Piston circuit, First Eigenvector: %6.4f min\n',toc/60);
 end
 save('piston_w1_err'); %Saves the numerical output in a .mat file for figure printing
 
 
 %% OTL CIRCUIT Total Sensitivity Index
+close all; clear all; clear; clc;
 fun = @otlcircuit;
 dfun = @dotlcircuit;
 m = 6; %Number of input variables 
@@ -122,7 +123,7 @@ sobol_rel_err = zeros(m,length(Nsamples),Ntrials);
 sobol_std_err = zeros(m,length(Nsamples),Ntrials);
 for i=1:Ntrials
     tic
-    [sobol_rel_err(:,:,i), sobol_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 1);
+    [sobol_rel_err(:,:,i), sobol_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 1);
     fprintf('OTL, Sobol: %6.4f min\n',toc/60);
 end
 save('otl_sobol_err');
@@ -137,7 +138,7 @@ dgsm_rel_err = zeros(m,length(Nsamples),Ntrials);
 dgsm_std_err = zeros(m,length(Nsamples),Ntrials);
 for i =1:Ntrials
     tic
-    [dgsm_rel_err(:,:,i), dgsm_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 2);
+    [dgsm_rel_err(:,:,i), dgsm_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 2);
     fprintf('OTL, DGSM: %6.4f min\n',toc/60);
 end
 save('otl_dgsm_err');
@@ -152,7 +153,7 @@ dgsm_rel_err = zeros(m,length(Nsamples),Ntrials);
 dgsm_std_err = zeros(m,length(Nsamples),Ntrials);
 for i =1:Ntrials
     tic
-    [dgsm_rel_err(:,:,i), dgsm_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 4);
+    [dgsm_rel_err(:,:,i), dgsm_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 4);
     fprintf('OTL, DGSM: %6.4f min\n',toc/60);
 end
 save('otl_bs_dgsm_err');
@@ -170,7 +171,7 @@ as_rel_err = zeros(m,length(Nsamples),Ntrials);
 as_std_err = zeros(m,length(Nsamples),Ntrials);
 for i =1:Ntrials
     tic
-    [as_rel_err(:,:,i), as_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 3);
+    [as_rel_err(:,:,i), as_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 3);
     fprintf('OTL, AS: %6.4f min\n',toc/60);
 end
 save('otl_AS_err');
@@ -186,7 +187,7 @@ reg_rel_err = zeros(m,length(Nsamples),Ntrials);
 reg_std_err = zeros(m,length(Nsamples),Ntrials);
 for i=1:Ntrials
     tic
-    [reg_rel_err(:,:,i), reg_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 5);
+    [reg_rel_err(:,:,i), reg_std_err(:,:,i), ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 5);
     fprintf('OTL circuit, Regression: %6.4f min\n',toc/60);
 end
 save('otl_reg_err'); %Saves the numerical output in a .mat file for figure printing
@@ -203,7 +204,7 @@ w1_rel_err = zeros(m,length(Nsamples),Ntrials);
 w1_std_err = zeros(m,length(Nsamples),Ntrials);
 for i=1:Ntrials
     tic
-    [w1_rel_err(:,:,i), w1_std_err(:,:,i)] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 6);
+    [w1_rel_err(:,:,i), w1_std_err(:,:,i),ref] = sensitivity_metric_errors(fun, dfun, m, Nsamples, 6);
     fprintf('OTL circuit, First Eigenvector: %6.4f min\n',toc/60);
 end
 save('otl_w1_err'); %Saves the numerical output in a .mat file for figure printing
