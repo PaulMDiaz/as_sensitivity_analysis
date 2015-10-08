@@ -121,7 +121,7 @@ switch metric_case
             M = Nsamples(i);
             
             % compute the regression coefficients
-            [beta_hat,se] = std_regression_coeffs_mc(fun,m,M);
+            [beta_hat,se] = std_regression_coeffs_mc_pc(fun,m,M);
             
             % error versus quadrature reference
             rel_err(:,i) = abs(beta_hat-bhat_ref)./abs(bhat_ref);
