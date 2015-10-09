@@ -311,7 +311,7 @@ h=xlabel('M');
 f=ylabel('Standard Deviation');
 set(h,'Interpreter','latex', 'FontSize', 12);
 set(f,'Interpreter','latex', 'FontSize', 12);
-legend('1','2','3','4','5','6','Location','NorthEast');
+legend('1','2','3','4','5','6','Location','EastOutside');
 ylim([1e-11 1e2]);
 %print('std_err_w1_otl','-dpdf','-r300');
 %close;
