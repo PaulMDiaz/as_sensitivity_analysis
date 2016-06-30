@@ -14,7 +14,6 @@ V = sum(X.coefficients(2:end).^2);
 
 Stot = zeros(m,1);
 for i=1:m
-    
     ind = X.index_set(i,:)>0;
     Stot(i) = sum(X.coefficients(ind).^2);    
 end

@@ -1,4 +1,4 @@
-function [C] = piston(xx)
+function [C,dC] = piston(xx)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -50,7 +50,7 @@ k  = (xx(4)+1)*0.5*(5000-1000)+1000;
 P0 = (xx(5)+1)*0.5*(110000-90000)+90000;
 Ta = (xx(6)+1)*0.5*(296-290)+290;
 T0 = (xx(7)+1)*0.5*(360-340)+340;
-
+%Model evaluation
 Aterm1 = P0 * S;
 Aterm2 = 19.62 * M;
 Aterm3 = -k*V0 / S;
@@ -64,5 +64,8 @@ fact1 = M;
 fact2 = k + (S^2)*(P0*V0/T0)*(Ta/(V^2));
 
 C = 2 * pi * sqrt(fact1/fact2);
+
+%Gradient evaluation
+
 
 end
